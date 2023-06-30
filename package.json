@@ -1,0 +1,26 @@
+{
+  "name": "categories-api",
+  "version": "1.0.0",
+  "description": "Categories",
+  "main": "index.js",
+  "license": "MIT",
+  "engines": {
+    "node": "^12"
+  },
+  "scripts": {
+    "start": "set -o allexport; . ./.env; node src/interfaces/api/index.js"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^8.0.6",
+    "npmlog": "^7.0.1",
+    "pg": "8.3.0 "
+  },
+  "devDependencies": {
+    "@types/jest": "24.0.18",
+    "prettier": "1.17.0",
+    "supertest": "4.0.2"
+  }
+}
