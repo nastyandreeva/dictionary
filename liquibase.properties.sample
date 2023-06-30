@@ -1,0 +1,9 @@
+changeLogFile: ./sql/changelog.xml
+driver: org.postgresql.Driver
+url: jdbc:postgresql://<host>:5432/<dbname>
+classpath: </usr/share/java/postgresql-42.2.9.jar>
+username: <liquibase_username>
+password: <liquibase_user_password>
+parameter.categories_owner_role: categories_owner
+parameter.categories_api_role: categoriesy_api
+parameter.categories_api_user: categories_api_user

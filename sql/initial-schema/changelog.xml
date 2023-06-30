@@ -1,0 +1,76 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no" ?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext
+    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+  <changeSet id="version:1_0_0" author="nastya.a">
+    <tagDatabase tag="v1.0.0" />
+  </changeSet>
+
+  <!-- Schema, roles -->
+  <changeSet id="init:categories:schema" author="nastya.a">
+    <preConditions onFail="HALT">
+      <changeLogPropertyDefined property="categories_owner_role" />
+      <changeLogPropertyDefined property="categories_api_role" />
+      <changeLogPropertyDefined property="categories_api_user" />
+    </preConditions>
+    <sqlFile path="categories/0001_roles.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <sqlFile path="categories/0002_schema.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <rollback>
+      <sqlFile path="categories/0002_schema.rollback.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+      <sqlFile path="categories/0001_roles.rollback.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    </rollback>
+  </changeSet>
+
+  <!-- Helper functions -->
+  <changeSet id="init:categories:functions:helper" author="nastya.a">
+    <preConditions onFail="HALT">
+      <changeLogPropertyDefined property="categories_owner_role" />
+      <changeLogPropertyDefined property="categories_api_role" />
+    </preConditions>
+    <sqlFile path="categories/functions/0000_helpers.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <rollback>
+      <sql>
+        DROP FUNCTION categories.generate_new_id();
+      </sql>
+    </rollback>
+  </changeSet>
+
+  <!-- Entities -->
+  <changeSet id="init:categories:tables" author="nastya.a">
+    <preConditions onFail="HALT">
+      <changeLogPropertyDefined property="categories_owner_role" />
+      <changeLogPropertyDefined property="categories_api_role" />
+    </preConditions>
+    <sqlFile path="categories/tables/records.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <rollback>
+      <sql>
+        DROP TABLE IF EXISTS categories.records;
+      </sql>
+    </rollback>
+  </changeSet>
+
+  <!-- Functions -->
+  <changeSet id="init:categories:functions" author="nastya.a">
+    <preConditions onFail="HALT">
+      <changeLogPropertyDefined property="categories_owner_role" />
+      <changeLogPropertyDefined property="categories_api_role" />
+    </preConditions>
+    <sqlFile path="categories/functions/0001_func.categories.record_get.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <sqlFile path="categories/functions/0002_func.categories.record_create.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <sqlFile path="categories/functions/0003_func.categories.record_update.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <sqlFile path="categories/functions/0004_func.categories.record_delete.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <sqlFile path="categories/functions/0005_func.categories.records_get.sql" relativeToChangelogFile="true" splitStatements="false" endDelimiter="" />
+    <rollback>
+      <sql>
+        DROP FUNCTION categories.records_get(jsonb);
+        DROP FUNCTION categories.record_delete(text);
+        DROP FUNCTION categories.record_update(text, jsonb);
+        DROP FUNCTION categories.record_create(jsonb);
+        DROP FUNCTION categories.record_get(text, text);
+      </sql>
+    </rollback>
+  </changeSet>
+
+</databaseChangeLog>
