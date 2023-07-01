@@ -2,40 +2,58 @@
 
 ## Requirements
 
+- nodejs v14.12.0
 - postgresql ^10
 - liquibase
 
-## Configs
-```shell
-$ cp liquibase.properties.sample liquibase.properties
 
-// and edit liquibase.properties (fill actual credentials)
+## Database
+
+Database structure is described in ./sql
+
+Api requires database user with role: `categories_api_role`
+
+Create database user `DB_USER` `DB_PASSWORD`
+After run `liquibase update` user will granted role `categories_api_role`.
+
+Fill in the `liquibase.properties` file with liquibase parameters
+
+```
+cp ./liquibase.properties.sample ./liquibase.properties
 ```
 
-## Setup
+Run
 
-```shell
--- dbname: partner_transfers
-
-CREATE USER categories_liquibase WITH PASSWORD '****';
-CREATE USER categories_api_user WITH PASSWORD '****';
-CREATE DATABASE categories OWNER categories_liquibase;
 ```
-
-```shell
-$ liquibase update
-
-// rollback
-$ liquibase rollback v1.0.0
+liquibase update
 ```
 
 ## Configuration
 
 Application expects ENV varilables to be set before starting.
-List of ENV varilables is defined in `.envrc.sample`
+List of ENV varilables is defined in `.env.sample`
 
 ## Install
 
 ```
 npm install
 ```
+
+## Start api
+
+```
+set -o allexport; . ./.env
+node src/interfaces/api/index.js
+```
+
+## Test
+
+Fill in the `setup.js` file with env variables
+
+```
+cp ./test/setup.sample.js ./test/setup.js
+```
+
+### Run tests
+
+```npm run test```
