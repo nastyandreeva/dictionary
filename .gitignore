@@ -5,3 +5,4 @@
 /liquibase.properties
 /liquibase.properties-*
 .idea
+/test/setup.js
